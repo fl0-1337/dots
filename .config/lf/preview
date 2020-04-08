@@ -1,0 +1,49 @@
+#!/bin/sh
+MIME=$(file -b --mime-type "$1")
+
+case "$1" in
+	# for files with file-extension
+	*.deb)
+		dpkg -I "${1}" ;;
+
+	*.docx)
+		docx2txt "${1}" - ;;
+
+	*.html)
+		w3m -dump "${1}" ;;
+
+	*.pdf)
+		pdftotext -l 10 -nopgbrk -q -- "${1}" - ;;
+
+	*.md|*.rmd|*.note)
+		glow -s dark "${1}" ;;
+
+	*.c|*.css|*.diff|*.sh|*.java|*.js|*.json|*.tex)	
+		highlight "${1}" -O ansi --force ;;
+
+	*.zip|*.jar)
+		zipinfo "${1}" ;;
+
+	*.tar|*.tar.*|*.txz|*.tgz|*.tbz)
+		tar --list -f "${1}" ;;
+
+	# for files with no file-extension
+	*)	case "$MIME" in
+
+        	video/*|audio/*|application/octet-stream)
+			mediainfo "${1}" ;;
+
+        	image/*)
+			chafa --fill=block --symbols=block -c 256 -s 80x"${HEIGHT}" "${1}" ;;
+
+		*shell*)
+			highlight "${1}" -O ansi --force ;;
+
+		*text/plain*)
+			cat "${1}" ;;
+
+        	*opendocument*)
+			odt2txt "${1}" ;;
+		*)	 ;;
+	esac
+esac

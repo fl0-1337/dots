@@ -1,0 +1,47 @@
+#!/bin/sh
+file=$1
+# while getopts "c" o; do case "${o}" in
+# 	c) choose="true";;
+# esac done
+
+# if [ ! -z "${choose}" ]
+# then
+# 	what=$(echo "evince\nvlc" | dmenu -p "Open in what?")
+# 	setsid "${what}" "${file}" &
+# else
+	case "${file}" in
+		*.pdf)	
+			setsid zathura "${file}" & ;;
+
+		*.png|*.jpg|*.jpeg|*.bmp|*.tif|*.tiff|*.gif)
+			setsid sxiv -aio "${file}" & ;;
+
+		*.doc|*.docx|*.ppt|*.pptx|*.xls|*.xlsx)
+			setsid libreoffice "${file}" & ;;
+
+		*.html|*.htm|*.xml|*.php)
+			setsid qutebrowser "${file}" & ;;
+
+		*.mkv|*.mp4|*.avi|*.mpge|*.mp2|*.ogv)
+			setsid mpv "${file}" & ;;
+
+		*.mp3|*.aac|*.flac|*.ogg|*.wav|*.wma)
+			setsid $TERMINAL -e mpv "${file}" & ;;
+
+		*.txt|*.log|*.cfg|*.tex|*.md|*.markdown)
+			$TERMINAL -e $EDITOR "${file}" & ;;
+
+		*.c|*.cpp|*.js|*.css|*.java)
+			setsid $TERMINAL -e $EDITOR "${file}" & ;;
+
+		*)
+			case $(file --mime-type "${file}" -b) in
+				text/troff) man ./ $file;;
+				text/*) $EDITOR $file;;
+				image/x-xcf|image/svg+xml) setsid gimp $file >/dev/null 2>&1 & ;;
+				image/*) setsid sxiv -aio  "${file}" 2>/dev/null& ;;
+				audio/*) mpv --input-ipc-server=/tmp/mpvsoc$(date +%%s) "${file}" ;;
+				video/*) setsid mpv --input-ipc-server=/tmp/mpvsoc$(date +%%s) "${file}" -quiet >/dev/null 2>&1 & ;;
+				application/pdf) setsid zathura "${file}" >/dev/null 2>&1 & ;;
+			    esac
+	esac

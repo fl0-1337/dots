@@ -1,0 +1,129 @@
+# GENERAL
+map ZZ quit
+map ZQ quit
+
+# BASIC VARS
+set drawbox
+set shell sh
+set previewer ~/.config/lf/preview
+set shellopts '-eu'
+set ifs "\n"
+set scrolloff 10
+set color256
+set icons
+
+# CMDS/FUNCTIONS
+cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
+
+cmd editExt ${{ setsid st -e $EDITOR $f & }}
+cmd diskUsage ${{ du --max-depth=1 -h --apparent-size | less }}
+
+cmd bulk-rename ${{
+    old=$(mktemp)
+    new=$(mktemp)
+    [ -n $fs ] && fs=$(ls)
+    printf "$fs\n" > $old
+    printf "$fs\n" > $new
+    $EDITOR $new
+    [ $(cat $new | wc -l) -ne $(cat $old | wc -l) ] && exit
+    paste $old $new | while read names; do
+        src=$(printf $names | cut -f1)
+        dst=$(printf $names | cut -f2)
+        [ $src = $dst ] && continue
+        [ -e $dst ] && continue
+        mv $src $dst
+    done
+    rm $old $new
+    lf -remote "send $id unselect"
+}}
+
+cmd delete ${{
+	set -f
+	clear
+	echo
+	printf "%s\n\t" "$fx"
+	printf "delete?[y/N]"
+	read ans
+	[ $ans = "y" ] && rm -rf $fx
+}}
+
+cmd paste &{{
+    load=$(lf -remote 'load')
+    mode=$(echo "$load" | sed -n '1p')
+    list=$(echo "$load" | sed '1d')
+    if [ $mode = 'copy' ]; then
+        rsync -av --ignore-existing --progress $list . \
+        | stdbuf -i0 -o0 -e0 tr '\r' '\n' \
+        | while read line; do
+            lf -remote "send $id echo $line"
+        done
+    elif [ $mode = 'move' ]; then
+        mv -n $list .
+    fi
+    lf -remote 'send load'
+    lf -remote 'send clear'
+}}
+
+# UNBIND KEYS
+map y
+map d
+map p
+map d
+map c
+map g
+map q
+
+# CHANGE DIR
+map <c-f> $lf -remote "send $id select '$(fzf)'"
+map cd push :cd<space>
+map gc cd ~/.config
+map gd cd ~/dl
+map gD cd ~/dox
+map gm cd /mnt
+map gM cd ~/mm
+map gw cd ~/work
+map gr cd ~/.local/repos
+map gb cd ~/.local/bin
+map gs cd ~/.local/share
+map go cd ~/.local/opt
+map gn cd ~/.local/share/notes
+map gh cd ~
+
+# COPY/CUT/PASE
+map yy copy
+map dd cut
+map pp paste
+map gg top
+map C copyto
+map M moveto
+
+# DATA MANIPULATING
+map ad push %mkdir<space>''<left>
+map af push %touch<space>''<left>
+map D delete
+
+# RENAME
+map R bulk-rename
+map r push :rename<space>
+
+# ARCHIVES
+map x $lf_extract -c $f
+map X $lf_extract $f
+
+map ct %lf_packer $fs
+map cz $gzip $f
+map cx $xz $f
+map c2 $bzip2 $f
+
+# OPENING FILES
+map o $lf_opener $f
+map O &lf_choose_opener $f
+map e $nvim $f
+map E editExt
+
+map <c-r> reload
+map du diskUsage
+map s shell
+map S $$SHELL
+map <enter> shell
+map W $setwal $f

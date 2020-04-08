@@ -1,0 +1,17 @@
+#!/bin/sh
+disk(){
+	rootfree=$(df -h | awk '$6=="/"{print $4}')
+	homefree=$(df -h | awk '$6=="/home"{print $4}')
+
+	# echo  "[ 🖥${rootfree} 🏠${homefree} ]"
+	# echo  "[ 🖥${rootfree} ]"
+	echo  "[ 🏠${homefree} ]"
+}
+
+
+
+mounts(){
+	mounted=$(df -h | awk '$1~/\/dev|mtp/&&$1!~/sda/{printf "%s (%s) ",$6,$4}')
+
+	[ ! -z "${mounted}" ] && echo "[ ⎆${mounted}]"
+}

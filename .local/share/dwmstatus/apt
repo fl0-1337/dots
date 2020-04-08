@@ -1,0 +1,10 @@
+#!/bin/sh
+apt(){
+	if [ ! -f /tmp/aptlist ] 
+	then	aptlist="--"
+	else 	aptlist=$(cat /tmp/aptlist)
+	fi
+
+	[ "${aptlist}" != "0" ] && [ "${aptlist}" != "" ] && echo "[ 📦${aptlist} ]" 
+
+}

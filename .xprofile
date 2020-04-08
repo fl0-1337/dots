@@ -1,0 +1,10 @@
+setwal &
+numlockx &
+setxkbmap -option caps:escape
+xset -dpms &
+xset s off &
+sxhkd &
+dunst &
+updatecheck &
+ipcheck &
+dwmstatus &

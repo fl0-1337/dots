@@ -1,0 +1,5 @@
+#!/bin/sh
+clock(){
+	time=$(date +%H:%M)
+	echo "[ ${time} ]"
+}
