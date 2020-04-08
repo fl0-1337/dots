@@ -46,3 +46,6 @@ alias gcommit='git commit -m'
 alias gpush='git push origin master'
 alias gpull='git pull'
 alias grm='git rm'
+
+# MISC
+alias cloneweb='wget -m -p -E -k'
