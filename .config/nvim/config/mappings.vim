@@ -9,8 +9,8 @@
 	autocmd FileType tex map <F5> :w<Cr>:tabfind Main.tex<Cr>:!$HOME/.config/nvim/bin/doc_compiler <C-r>%<Cr>:tabclose
 
 " DOC_PREVIEW
-	inoremap <F4> <Esc>:w<Cr>:!doc_compiler <C-r>% -p &<Cr><Cr>
-	map <F4> :w<Cr>:!doc_compiler <C-r>% -p &<Enter><Enter>
+	inoremap <F4> <Esc>:w<Cr>:!$HOME/.config/nvim/bin/doc_compiler <C-r>% -p &<Cr><Cr>
+	map <F4> :w<Cr>:!$HOME/.config/nvim/bin/doc_compiler <C-r>% -p &<Enter><Enter>
 
 " OPEN TOOLS
 	map <F8> :TagbarToggle<Cr>

@@ -62,7 +62,7 @@
 
 " ULTISNIPS
 	let g:UltiSnipsSnippetDirectories=[$HOME. '/.config/nvim/UltiSnips']
-	let g:UltiSnipsExpandTrigger="<M-Cr>"
+	let g:UltiSnipsExpandTrigger="<Tab>"
 	let g:UltiSnipsJumpForwardTrigger="<c-j>"
 	let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 	let g:UltiSnipsListSnippets="<c-l>"
