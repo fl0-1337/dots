@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# define pomodoro-time
+myWorkTime=1
+myBreakTime=1
+myBigBreak=2
+myRoundsBeforeBig=2
+
+# work
+dowork(){
+((roundcount--))
+worktime=$(awk -v a=$myWorkTime 'BEGIN {print int(a*60)}')
+while [ $worktime -ge 0 ]
+do
+  echo work $worktime > /tmp/pomo
+  ((worktime--))
+  sleep 1s
+done
+}
+
+# break
+dobreak(){
+breaktime=$(awk -v a=$myBreakTime 'BEGIN {print int(a*60)}')
+while [ $breaktime -ge 0 ]
+do
+  echo break $breaktime > /tmp/pomo
+  ((breaktime--))
+  sleep 1s
+done
+}
+
+# big break
+dobigbreak(){
+breaktime=$(awk -v a=$myBigBreak 'BEGIN {print int(a*60)}')
+while [ $breaktime -ge 0 ]
+do
+  echo bigbreak $breaktime > /tmp/pomo
+  ((breaktime--))
+  sleep 1s
+done
+roundcount=$myRoundsBeforeBig
+}
+
+main(){
+roundcount=$myRoundsBeforeBig
+while true; do
+	notify-send "START WORK"
+	dowork $1
+		if [ $roundcount -ne 0 ]
+		then
+			notify-send "TIME FOR A BREAK"
+			dobreak $2
+		else
+			notify-send "TIME FOR A BIG BREAK"
+			dobigbreak
+		fi
+done
+}
+
+stop(){
+	killall pomodoro
+}
+
+[ "$1" == "-c" ] && stop ||
+main${@}
