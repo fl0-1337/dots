@@ -1,5 +1,5 @@
 " BASICS
-	colorscheme codedark
+	colorscheme nord
 	set wildmenu
 	set relativenumber number
 	set splitbelow splitright
@@ -35,7 +35,7 @@
 	let g:peekaboo_prefix = '<leader>'
 
 " TABLINE
-	let g:airline_theme = 'codedark'
+	let g:airline_theme = 'nord'
 	let g:airline#extensions#tabline#enabled = 1
 	let g:airline#extensions#tabline#formatter = 'unique_tail'
 
@@ -62,7 +62,7 @@
 
 " ULTISNIPS
 	let g:UltiSnipsSnippetDirectories=[$HOME. '/.config/nvim/UltiSnips']
-	let g:UltiSnipsExpandTrigger="<Tab>"
+	let g:UltiSnipsExpandTrigger="<M-Cr>"
 	let g:UltiSnipsJumpForwardTrigger="<c-j>"
 	let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 	let g:UltiSnipsListSnippets="<c-l>"

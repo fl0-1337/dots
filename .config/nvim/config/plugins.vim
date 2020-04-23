@@ -1,6 +1,6 @@
 call plug#begin('~/.config/nvim/plugged')
 " THEME
-	Plug 'tomasiser/vim-code-dark'
+	Plug 'arcticicestudio/nord-vim'
 	Plug 'vim-airline/vim-airline'
 
 " SPEEDUP

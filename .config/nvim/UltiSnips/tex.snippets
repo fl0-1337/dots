@@ -89,7 +89,7 @@ snippet ul "Write underlined Text" i
 endsnippet
 
 snippet tc "Change text color" i
-\textcolor{$1}{${2:${VISUAL:text to colorize}}$0
+\textcolor{$1}{${2:${VISUAL:text to colorize}}}$0
 endsnippet
 
 snippet sup "Hightext" i
@@ -180,7 +180,7 @@ snippet math "Math enviroment" b
 endsnippet
 
 snippet lstinput "lstinputlisting" b
-\lstinputlisting[name=$1, caption=\lstname, language=$2]{$3}
+\lstinputlisting[name=$1, caption\lstname, language=$2]{$3}
 endsnippet
 
 snippet lstlisting "lstlisting enviroment" b
@@ -220,7 +220,7 @@ sum_{$1}^{$2} $0
 endsnippet
 
 snippet frac "Math: Fraction" i
-frac{$1}{$2} $0
+\frac{$1}{$2} $0
 endsnippet
 
 snippet land "Math: logical AND" i
