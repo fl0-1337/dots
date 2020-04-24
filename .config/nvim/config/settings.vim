@@ -85,6 +85,9 @@
 " SET FILETYPE FOR LaTeX
 	autocmd BufRead,BufNewFile *.tex set filetype=tex
 
+" CLEAN TEX BUILD FILES
+	autocmd VimLeave *.tex !texclear %
+
 " NOT USED
 	" let g:vim_markdown_folding_level = 6
 	" let g:vim_markdown_edit_url_in = 'tab'
