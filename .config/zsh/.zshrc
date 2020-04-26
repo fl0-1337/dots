@@ -9,10 +9,7 @@ autoload -Uz compinit
 compinit
 
 # PROMPT
-echo
-PROMPT=' %F{yellow}[ %5~ ] %f
-%F{blue}>>%f '
-RPROMPT='%F{white}%T%f'
+source $HOME/.config/zsh/prompt
 
 # SYNTAX-HIGHLIGHT
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
