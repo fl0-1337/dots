@@ -168,25 +168,26 @@ frame_color = "#8EC07C"
 # Context menu.
 #context = ctrl+shift+period
 
-frame_color = "#E5E9F0"
 separator_color = "#E5E9F0"
 
 [urgency_low]
 # IMPORTANT: colors have to be defined in quotation marks.
 # Otherwise the "#" and following would be interpreted as a comment.
- background = "#3B4252"
-foreground = "#4C566A"
+background = "#434C5E"
+foreground = "#E5E9F0"
+frame_color = "#4C566A"
 timeout = 4
 
 [urgency_normal]
 background = "#434C5E"
 foreground = "#E5E9F0"
-#background = "#2B313C"
+frame_color = "#A3BE8C"
 timeout = 6
 
 [urgency_critical]
-background = "#88C0D0"
-foreground = "#ECEFF4"
+background = "#434C5E"
+foreground = "#E5E9F0"
+frame_color = "#BF616A"
 timeout = 8
 
 # vim: ft=cfg
