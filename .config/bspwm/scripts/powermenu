@@ -1,0 +1,13 @@
+#!/bin/sh
+
+choises="Log off\nShutdown\nReboot"
+
+chosen=$(echo "$choises" | dmenu -i -c -l 3)
+
+case "$chosen" in
+	"Log off")	killall melonpanel && bspc quit ;;
+
+	Shutdown)	systemctl poweroff;;
+
+	Reboot)		systemctl reboot;;
+esac

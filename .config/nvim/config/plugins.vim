@@ -11,6 +11,7 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'unblevable/quick-scope'
 	Plug 'terryma/vim-multiple-cursors'
 	Plug 'ctrlpvim/ctrlp.vim'
+ 	Plug 'embear/vim-foldsearch'
 
 " MARKDOWN
 	Plug 'godlygeek/tabular'

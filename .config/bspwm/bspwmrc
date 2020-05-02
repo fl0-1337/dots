@@ -1,0 +1,54 @@
+#!/bin/sh
+
+# monitors and deskop
+dual_monitor=$(bspc query -M | wc -l)
+if [ $dual_monitor -lt 2 ]
+then 	bspc monitor -d 1 2 3 4 5 6 7 code music 42
+else 	bspc monitor VGA-1 -d 1 2 3 4 5 6 7 code music 42
+fi
+
+
+# general config
+bspc config border_width        	 2
+bspc config window_gap          	12
+bspc config top_patdding 		10
+bspc config split_ratio          	0.52
+# bspc config single_monocle 		flase
+# bspc config borderless_monocle 	false
+# bspc config gapless_monocle 		false
+bspc config focus_follows_pointer 	true
+
+# colors
+bspc config normal_border_color 	"#2E3440" # nord0
+bspc config active_border_color 	"#E5E9F0" # nord5
+bspc config focused_border_color 	"#D8DEE9" # nord4
+bspc config presel_feedback_color	"#434C5E" # nord2
+
+# application rules
+	# send to desktop
+bspc rule -a Gimp 	desktop='^8' state=floating follow=on
+bspc rule -a cmus 	desktop='^9'
+bspc rule -a Eclipse 	desktop='^8'
+
+	# floating
+bspc rule -a MEGAsync 	state=floating manage=off
+bspc rule -a Java 	state=floating
+bspc rule -a mplayer2 	state=floating
+bspc rule -a mpv 	state=floating
+
+	# misc
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off
+bspc rule -a scratchterm sticky=on state=floating hidden=on center=true rectangle=1000x600+0+0
+
+# make scratchpad
+id=$(xdotool search --class scratchterm)
+[ "$id" = "" ] && st -c scratchterm -e tmux -f ~/.config/tmux/tmux.conf new -s scratchpad &
+
+# fix the "x"-cursor
+xsetroot -cursor_name left_ptr &
+
+# start panel
+melonpanel &
+
+# wmname LG3D

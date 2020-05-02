@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+id=$(xdotool search --name melonpanel)
+
+if [ "$id" != "" ]
+ then
+	 killall melonpanel
+	 bspc config top_padding 0
+else
+	bspc config top_padding 10
+ 	setsid melonpanel &
+fi
