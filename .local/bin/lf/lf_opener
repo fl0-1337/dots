@@ -10,7 +10,7 @@ file=$1
 # 	setsid "${what}" "${file}" &
 # else
 	case "${file}" in
-		*.pdf)	
+		*.pdf)
 			setsid zathura "${file}" & ;;
 
 		*.png|*.jpg|*.jpeg|*.bmp|*.tif|*.tiff|*.gif)

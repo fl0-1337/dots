@@ -1,0 +1,31 @@
+#!/bin/sh
+
+
+getbat(){
+	mv /tmp/bat /tmp/bat.old > /dev/null
+	now=$(acpi | cut -d " " -f4 | sed -e 's/%//;s/,//' | tee /tmp/bat)
+	state=$(acpi | cut -d " " -f3 | sed 's/,//')
+}
+
+fullcheck(){
+	old=$(cat /tmp/bat.old)
+	[ "$now" -eq 100 ] && [ "$now" -ne "$old" ] && notify-send "Akku aufgeladen"
+}
+
+checkvalue(){
+	now=$(cat /tmp/bat)
+	[ "$now" -le 95 ] && [ $state = "Discharging" ] && /usr/bin/notify-send -u critical "Akkustand bei $now %"
+	# case "$value" in
+		# 20)	notify-send -u low "Akku bei 20 %" ;;
+		# 15)	notify-send -u critical "Akku bei 15 %" ;;
+		# 10)	notify-send -u critical "Akku bei 10 %" ;;
+	# esac
+}
+
+main(){
+	getbat
+	fullcheck
+	checkvalue
+}
+
+main ${@}

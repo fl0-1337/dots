@@ -1,0 +1,3 @@
+#!/bin/sh
+clear
+man $(apropos --long "$1" | slmenu -i -l 20 | awk '{print $2, $1}' | tr -d '()')

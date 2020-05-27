@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# delete gap
+sed -i /tile_gap/d $HOME/.config/spectrwm/spectrwm.conf
+
+# set new gapsize
+echo "tile_gap = $1" >> $HOME/.config/spectrwm/spectrwm.conf
+
+# restart spectrwm
+kill -HUP $(pgrep -x spectrwm)

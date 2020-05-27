@@ -1,0 +1,11 @@
+#/bin/sh
+
+# get scratchpad-ID
+WINID=$(wmctrl -lx | grep scratchpad | awk '{print $1}')
+[ -z $WINID ] && setsid st -c scratchpad -t scratchpad
+
+# move scratchpad to current desktop
+wmctrl -i -R $WINID
+
+# toggle hidden
+wmctrl -i -r $WINID -b toggle,hidden
