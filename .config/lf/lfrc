@@ -1,23 +1,55 @@
-# GENERAL
-map ZZ quit
-map ZQ quit
-
 # BASIC VARS
 set drawbox
-set shell sh
 set previewer ~/.config/lf/preview
-set shellopts '-eu'
-set ifs "\n"
 set scrolloff 10
 set color256
 set icons
 
+# needed for the most scripts
+set shell zsh
+set shellopts '-e:--shwordsplit'
+set ifs "\n"
+
 # CMDS/FUNCTIONS
 cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
-
 cmd editExt ${{ setsid st -e $EDITOR $f & }}
 cmd diskUsage ${{ du --max-depth=1 -h --apparent-size | less }}
 
+cmd tofold ${{
+	set -f
+	clear; echo
+	printf "move files to folder: "
+	read newd
+
+	if [ -d $newd ]
+	then 	printf "folder exists, merge? [y/N]"
+		read choice
+		[ "$choice" = "y" ] && mv $fx $newd
+
+	else 	mkdir $newd && mv $fx $newd; fi
+}}
+
+# Edit the current filename
+cmd rename-end ${{
+	# get 'basename' of the selection
+	filename="${f##*/}"
+	# quote it so we won't deal with quotes in the lf -remote command
+	filename="$(printf '%q' "$filename")"
+	filename="${filename// /<space>}"
+	lf -remote "send $id push :rename<space>$filename"
+}}
+
+# Edit filename before the extension
+cmd rename-ext ${{
+	# get 'basename' of the selection
+	filename="${f##*/}"
+	# quote it so we won't deal with quotes in the lf -remote command
+	filename="$(printf '%q' "$filename")"
+	filename="${filename// /<space>}"
+	lf -remote "send $id push :rename<space>$filename<a-b><c-b>"
+}}
+
+# bulk-rename
 cmd bulk-rename ${{
     old=$(mktemp)
     new=$(mktemp)
@@ -39,8 +71,7 @@ cmd bulk-rename ${{
 
 cmd delete ${{
 	set -f
-	clear
-	echo
+	clear; echo
 	printf "%s\n\t" "$fx"
 	printf "delete?[y/N]"
 	read ans
@@ -65,16 +96,11 @@ cmd paste &{{
 }}
 
 # UNBIND KEYS
-map y
-map d
-map p
-map d
-map c
-map g
-map q
+map y; map d map p; map d; map c; map g; map q; map r
 
 # CHANGE DIR
 map <c-f> $lf -remote "send $id select '$(fzf)'"
+map <c-g> $lf -remote "send $id cd '$(find -type d | fzf)'"
 map cd push :cd<space>
 map gc cd ~/.config
 map gd cd ~/dl
@@ -94,17 +120,18 @@ map yy copy
 map dd cut
 map pp paste
 map gg top
-map C copyto
-map M moveto
 
 # DATA MANIPULATING
 map ad push %mkdir<space>''<left>
 map af push %touch<space>''<left>
+map tf tofold
 map D delete
 
 # RENAME
-map R bulk-rename
-map r push :rename<space>
+map rc push :rename<space>
+map re rename-ext
+map ra rename-end
+map br bulk-rename
 
 # ARCHIVES
 map x $lf_extract -c $f
@@ -118,12 +145,21 @@ map c2 $bzip2 $f
 # OPENING FILES
 map o $lf_opener $f
 map O &lf_choose_opener $f
-map e $nvim $f
+map e $$EDITOR $f
 map E editExt
 
+# SYSTEM
+map ZZ quit
+map ZQ quit
+map <c-z> $ kill -STOP $PPID
 map <c-r> reload
-map du diskUsage
-map s shell
-map S $$SHELL
-map <enter> shell
 map W $setwal $f
+map . set hidden!
+map du diskUsage
+map <c-e> down
+map <c-y> up
+
+# SHELL
+map s shell
+map <enter> shell
+map S $$SHELL
