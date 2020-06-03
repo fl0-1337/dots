@@ -12,6 +12,9 @@
 	inoremap <F4> <Esc>:w<Cr>:!doc_compiler <C-r>% -p &<Cr><Cr>
 	map <F4> :w<Cr>:!doc_compiler <C-r>% -p &<Enter><Enter>
 
+" TOGGLE SPELLCHECK
+	map <F7> :setlocal spell! spelllang=de_de<Cr>
+
 " OPEN TOOLS
 	map <F8> :TagbarToggle<Cr>
 	map <F2> :Lexplore<Cr>

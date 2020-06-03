@@ -30,7 +30,8 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'baskerville/vim-sxhkdrc'
 	Plug 'matze/vim-tex-fold'
 	Plug 'junegunn/goyo.vim'
-
+	Plug 'dylanaraps/fff.vim'
+	Plug 'ap/vim-css-color'
 
 " VIM PROGRAMS
 	Plug 'itchyny/calendar.vim'

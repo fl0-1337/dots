@@ -6,6 +6,14 @@
 	set cursorline
 	set nocompatible
 	set path+=**
+
+" ENABLE MOUSE
+	set mouse=a
+
+" USE SYSTEM CLIPBOARD (NEOVIM ONLY)
+	set clipboard+=unnamedplus
+
+" FILETYPE PLUGIN
 	filetype plugin on
 	filetype plugin indent on
 	syntax on
@@ -85,9 +93,17 @@
 " SET FILETYPE FOR LaTeX
 	autocmd BufRead,BufNewFile *.tex set filetype=tex
 
+" CLEAR LATEX
+	autocmd VimLeave *.tex !texclear %
+
+" USING fff AS FILEPICKER
+	let g:fff#split = "30vnew"
+	let g:fff#split_direction = "nosplitbelow nosplitright"
+
+
+
+
 " NOT USED
 	" let g:vim_markdown_folding_level = 6
 	" let g:vim_markdown_edit_url_in = 'tab'
 	" autocmd BufNewFile *.tex -1read ~/.config/nvim/templates/skel.tex
-
-	autocmd VimLeave *.tex !texclear %
