@@ -6,6 +6,7 @@
 	set cursorline
 	set nocompatible
 	set path+=**
+	set shortmess+=c
 
 " ENABLE MOUSE
 	set mouse=a
@@ -47,19 +48,6 @@
 	let g:airline#extensions#tabline#enabled = 1
 	let g:airline#extensions#tabline#formatter = 'unique_tail'
 
-" FOR NOTE-TAKING
-	augroup notes
-		autocmd!
-		autocmd BufNewFile,BufRead,BufWrite *.note set nofoldenable
-		autocmd BufNewFile,BufRead,BufWrite *.note set filetype=markdown
-	augroup END
-
-" LOAD SKELS FOR NEW FILES
-	autocmd BufNewFile *.md -1read ~/.config/nvim/templates/skel.md
-	autocmd BufNewFile *.html -1read ~/.config/nvim/templates/skel.html
-	autocmd BufNewFile *.sh -1read ~/.config/nvim/templates/skel.sh
-
-
 " HIGHLIGHT TRAILING WHITESPACE
 	highlight ExtraWhitespace ctermbg=red guibg=red
 	autocmd BufEnter,InsertLeave * match ExtraWhitespace /\s\+$/
@@ -70,7 +58,7 @@
 
 " ULTISNIPS
 	let g:UltiSnipsSnippetDirectories=[$HOME. '/.config/nvim/UltiSnips']
-	let g:UltiSnipsExpandTrigger="<M-Cr>"
+	let g:UltiSnipsExpandTrigger="<Tab>"
 	let g:UltiSnipsJumpForwardTrigger="<c-j>"
 	let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 	let g:UltiSnipsListSnippets="<c-l>"
@@ -96,14 +84,38 @@
 " CLEAR LATEX
 	autocmd VimLeave *.tex !texclear %
 
-" USING fff AS FILEPICKER
-	let g:fff#split = "30vnew"
-	let g:fff#split_direction = "nosplitbelow nosplitright"
+" lf as FILEPICKER
+	let g:NERDTreeHijackNetrw = 0
+	let g:lf_replace_netrw = 1
+	let g:lf_map_keys = 0
 
+" UNIVERSAL LINK HANDLER
+	let g:utl_cfg_hdl_mt_application_pdf = ':silent !zathura %p &'
+        let g:utl_cfg_hdl_mt_image_jpeg = ':silent !sxiv %p &'
+	let g:utl_cfg_hdl_scm_http_system = "silent !firefox -remote 'ping()' && firefox -remote 'openURL( %u )' || firefox '%u#%f' &"
+	let g:utl_cfg_hdl_mt_text_directory='VIM'
 
+" CHOOSEWIN
+	let g:choosewin_overlay_enable = 1
 
+" FERN
+	let g:fern#scheme#bookmark#store#file = '~/.config/nvim/bookmarks.json'
 
 " NOT USED
 	" let g:vim_markdown_folding_level = 6
 	" let g:vim_markdown_edit_url_in = 'tab'
 	" autocmd BufNewFile *.tex -1read ~/.config/nvim/templates/skel.tex
+	" let g:fff#split = \"30vnew\"
+	" let g:fff#split_direction = \"nosplitbelow nosplitright\"
+
+" FOR NOTE-TAKING
+	" augroup notes
+	" 	autocmd!
+	" 	autocmd BufNewFile,BufRead,BufWrite *.note set nofoldenable
+	" 	autocmd BufNewFile,BufRead,BufWrite *.note set filetype=markdown
+	" augroup END
+
+" LOAD SKELS FOR NEW FILES
+	" autocmd BufNewFile *.md -1read ~/.config/nvim/templates/skel.md
+	" autocmd BufNewFile *.html -1read ~/.config/nvim/templates/skel.html
+	" autocmd BufNewFile *.sh -1read ~/.config/nvim/templates/skel.sh
