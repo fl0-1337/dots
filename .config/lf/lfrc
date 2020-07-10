@@ -19,11 +19,12 @@ cmd diskUsage ${{ du --max-depth=1 -h --apparent-size | less }}
 cmd tofold ${{
 	set -f
 	clear; echo
-	printf "move files to folder: "
-	read newd
+	# printf "move files to folder: "
+	newd=$(ls -d1 */ | fzf --print-query | tail -1)
+	# read newd
 
 	if [ -d $newd ]
-	then 	printf "folder exists, merge? [y/N]"
+	then 	printf "folder \"$newd\" exists, merge? [y/N]"
 		read choice
 		[ "$choice" = "y" ] && mv $fx $newd
 
