@@ -33,6 +33,7 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 't9md/vim-choosewin'			" easy swap between splits and tabs
 	Plug 'voldikss/vim-floaterm'			" floating terminal for vim
 	Plug 'vim-scripts/utl.vim'			" opening links with vim (pdf,url,jpg)
+ 	Plug 'chrisbra/SudoEdit.vim'			" write/read files with sudo
 
 " LF FOR VIM
 	Plug 'ptzz/lf.vim'				" lf for vim
@@ -48,12 +49,13 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'LumaKernel/fern-mapping-fzf.vim'		" fuzzy finding files in the filetree
 
 " MISC
-	Plug 'junegunn/goyo.vim'			" work on files without distraction
+ 	Plug 'chrisbra/DistractFree'			" work on files without distraction
 
 " FILETYPE PLUGINS
 	Plug 'inkarkat/vim-SyntaxRange'			" insert blocks of code in files
 	Plug 'baskerville/vim-sxhkdrc'			" syntax for sxhkdrc
 	Plug 'matze/vim-tex-fold'			" enable folding for .tex-files
+	Plug 'chrisbra/csv.vim'				" plugin for csv
 
 " VIM PROGRAMS
 	Plug 'itchyny/calendar.vim'			" visual calendar for vim
@@ -70,3 +72,4 @@ call plug#end()
 	" Plug 'jkramer/vim-checkbox'
 	" Plug 'mattn/calendar-vim'
 	" Plug 'ctrlpvim/ctrlp.vim'			" for fast fileopening
+	" Plug 'junegunn/goyo.vim'			" work on files without distraction

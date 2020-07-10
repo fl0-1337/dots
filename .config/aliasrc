@@ -2,11 +2,13 @@
 
 # PROGS
 alias initcoc='vim -c "CocInstall coc-texlab coc-snippets coc-java coc-html"'
-alias c='nvim -c Calendar'
+alias Cal='nvim -c Calendar'
 alias r='nvim -c Renamer'
 alias rtv='rtv --enable-media'
-alias v='nvim'
-alias sv='sudo nvim'
+# alias v='nvim'
+# alias sv='sudo nvim'
+alias tmux='tmux -f ~/.config/tmux/tmux.conf'
+alias tmuxs='tmux source ~/.config/tmux/tmux.conf'
 
 # AUTOCOLOR
 alias grep='grep --color=auto'
@@ -49,3 +51,4 @@ alias grm='git rm'
 
 # MISC
 alias cloneweb='wget -m -p -E -k'
+alias texclean='rm *{log,toc}'

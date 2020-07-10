@@ -1,5 +1,6 @@
 # ZSH-CONFIG
 . ~/.config/aliasrc
+. ~/.config/funcrc
 HISTFILE=~/.config/zsh/histfile
 HISTSIZE=1000
 SAVEHIST=1000

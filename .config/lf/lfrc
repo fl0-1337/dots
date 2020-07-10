@@ -11,6 +11,7 @@ set shellopts '-e:--shwordsplit'
 set ifs "\n"
 
 # CMDS/FUNCTIONS
+
 cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
 cmd editExt ${{ setsid st -e $EDITOR $f & }}
 cmd diskUsage ${{ du --max-depth=1 -h --apparent-size | less }}
@@ -78,7 +79,7 @@ cmd delete ${{
 	[ $ans = "y" ] && rm -rf $fx
 }}
 
-cmd paste &{{
+cmd paste ${{
     load=$(lf -remote 'load')
     mode=$(echo "$load" | sed -n '1p')
     list=$(echo "$load" | sed '1d')
@@ -86,7 +87,8 @@ cmd paste &{{
         rsync -av --ignore-existing --progress $list . \
         | stdbuf -i0 -o0 -e0 tr '\r' '\n' \
         | while read line; do
-            lf -remote "send $id echo $line"
+            # lf -remote "send $id echo $line"
+            echo "$line"
         done
     elif [ $mode = 'move' ]; then
         mv -n $list .
@@ -95,8 +97,9 @@ cmd paste &{{
     lf -remote 'send clear'
 }}
 
+
 # UNBIND KEYS
-map y; map d map p; map d; map c; map g; map q; map r
+map y; map d; map p; map d; map c; map g; map q; map r
 
 # CHANGE DIR
 map <c-f> $lf -remote "send $id select '$(fzf)'"
@@ -161,5 +164,27 @@ map <c-y> up
 
 # SHELL
 map s shell
-map <enter> shell
+# map <enter> shell
 map S $$SHELL
+
+# FILEPICKER TMUX
+cmd zle-cd %printf 'cd %q && zle reset-prompt\n' "$PWD" >&$ZLE_FIFO
+
+cmd zle-insert-relative %{{
+    for f in $fx; do
+        printf 'LBUFFER+="${LBUFFER:+ }${(q)$(realpath %q --relative-to=$PWD)}"\n' "$f" >&$ZLE_FIFO
+    done
+}}
+
+cmd zle-insert-absolute %{{
+    for f in $fx; do
+        printf 'LBUFFER+="${LBUFFER:+ }%q"\n' "$f" >&$ZLE_FIFO
+    done
+}}
+
+cmd zle-init :{{
+    map . zle-cd
+    map a zle-insert-relative
+    map A zle-insert-absolute
+}}
+&[[ -n "$ZLE_FIFO" ]] && lf -remote "send $id zle-init"
