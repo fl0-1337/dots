@@ -1,0 +1,12 @@
+pomodoro(){
+if [ -f /tmp/pomo ]
+then
+	[ "$(pgrep -x pomodoro)" = "" ] && rm /tmp/pomo
+	mins=$(awk '{print int($2/60)}' /tmp/pomo)
+	secs=$(awk '{print int($2%60)}' /tmp/pomo)
+	[ $mins -le 9 ] && mins="0${mins}"
+	[ $secs -le 9 ] && secs="0${secs}"
+
+	echo "[ ⏱️$mins:$secs ]"
+fi
+}

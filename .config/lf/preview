@@ -18,7 +18,7 @@ case "$1" in
 	*.md|*.rmd|*.note)
 		glow -s dark "${1}" ;;
 
-	*.c|*.css|*.diff|*.sh|*.java|*.js|*.json|*.tex)	
+	*.c|*.css|*.diff|*.h|*.sh|*.java|*.js|*.json|*.tex)
 		highlight "${1}" -O ansi --force ;;
 
 	*.zip|*.jar)

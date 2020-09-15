@@ -5,7 +5,7 @@ vol(){
 
 # 🔈
 # 🔇
-	if [ "$getState" = "[off]" ] 
+	if [ "$getState" = "[off]" ]
 	then 	echo "[ 🔇 ]"
 	else	echo "[ 🔈${getVolume} ]"
 		fi

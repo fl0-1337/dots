@@ -3,9 +3,9 @@ disk(){
 	rootfree=$(df -h | awk '$6=="/"{print $4}')
 	homefree=$(df -h | awk '$6=="/home"{print $4}')
 
-	# echo  "[ 🖥${rootfree} 🏠${homefree} ]"
+	echo  "[ 🖥${rootfree} 🏠${homefree} ]"
 	# echo  "[ 🖥${rootfree} ]"
-	echo  "[ 🏠${homefree} ]"
+	# echo  "[ 🏠${homefree} ]"
 }
 
 

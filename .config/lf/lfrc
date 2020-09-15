@@ -12,6 +12,14 @@ set ifs "\n"
 
 # CMDS/FUNCTIONS
 
+cmd cd-fuzzy ${{
+	lf -remote "send $id cd $(ls -d1 */ |fzf | sed 's/\ /\\ /g')"
+}}
+
+cmd sel-fuzzy ${{
+	lf -remote "send $id select $(find -maxdepth 1 -type f | fzf | sed 's/\ /\\ /g')"
+}}
+
 cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
 cmd editExt ${{ setsid st -e $EDITOR $f & }}
 cmd diskUsage ${{ du --max-depth=1 -h --apparent-size | less }}
@@ -38,7 +46,7 @@ cmd rename-end ${{
 	# quote it so we won't deal with quotes in the lf -remote command
 	filename="$(printf '%q' "$filename")"
 	filename="${filename// /<space>}"
-	lf -remote "send $id push :rename<space>$filename"
+	lf -remote "send $id push :rename<space>'$filename'<c-b>"
 }}
 
 # Edit filename before the extension
@@ -48,7 +56,7 @@ cmd rename-ext ${{
 	# quote it so we won't deal with quotes in the lf -remote command
 	filename="$(printf '%q' "$filename")"
 	filename="${filename// /<space>}"
-	lf -remote "send $id push :rename<space>$filename<a-b><c-b>"
+	lf -remote "send $id push :rename<space>'$filename'<a-b><c-b>"
 }}
 
 # bulk-rename
@@ -132,7 +140,7 @@ map tf tofold
 map D delete
 
 # RENAME
-map rc push :rename<space>
+map rc push :rename<space>''<left>
 map re rename-ext
 map ra rename-end
 map br bulk-rename
@@ -167,6 +175,8 @@ map <c-y> up
 map s shell
 # map <enter> shell
 map S $$SHELL
+map <enter> cd-fuzzy
+map <bs2> sel-fuzzy
 
 # FILEPICKER TMUX
 cmd zle-cd %printf 'cd %q && zle reset-prompt\n' "$PWD" >&$ZLE_FIFO
