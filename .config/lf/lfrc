@@ -106,6 +106,9 @@ cmd paste ${{
     lf -remote 'send clear'
 }}
 
+cmd dragon %dragon-drag-and-drop -a -x $fx
+cmd cpdragon %cpdragon
+cmd mvdragon %mvdragon
 
 # UNBIND KEYS
 map y; map d; map p; map d; map c; map g; map q; map r
@@ -132,6 +135,9 @@ map yy copy
 map dd cut
 map pp paste
 map gg top
+map dr dragon
+map dc cpdragon
+map dm mvdragon
 
 # DATA MANIPULATING
 map ad push %mkdir<space>''<left>
