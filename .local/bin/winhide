@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# HIDEFILE
+	hidefile=$HOME/.config/hides
+
+hidewindow(){
+	# WRITE WINDOW-ID AND WINDOW-TITLE IN FILE
+		echo $(xdo id) $(xdotool getwindowfocus getwindowname) >> ${hidefile}
+	# HIDE WINDOW
+		xdo hide
+}
+
+showwindow(){
+	# TEST IF HIDEFILE IS EMPTY
+		[ -s $hidefile ] || exit
+	# GET ID TO OPEN
+		getID=$(cat ${hidefile} | dmenu -p "Show window:" -c -i -l 5 | awk '{print $1}')
+	# SHOW WINDOW AND CLEAN THE HIDEFILE
+		xdo show $getID && sed -i /$getID/d ${hidefile}
+}
+
+while getopts "hs" o; do case "${o}" in
+	h) hidewindow ;;
+	s) showwindow ;;
+	*) exit ;;
+esac done
