@@ -7,6 +7,12 @@
 	set nocompatible
 	set path+=**
 	set shortmess+=c
+	set hidden
+	set noswapfile
+
+" SET TITLE
+	set title
+	autocmd BufEnter * let &titlestring = "(nvim) - " . expand("%:p")
 
 " ENABLE MOUSE
 	set mouse=a
@@ -28,7 +34,6 @@
 
 " ALWAY CENTER WHEN INSTERTING
 	autocmd InsertEnter * norm zz
-
 
 " TAGBAR
 	let g:tagbar_type_markdown = {
@@ -81,13 +86,15 @@
 " SET FILETYPE FOR LaTeX
 	autocmd BufRead,BufNewFile *.tex set filetype=tex
 
+" SET FILETYPE AND SPECIAL CHARACTERS FOR GROFF
+	augroup groff
+		autocmd!
+		autocmd BufRead,BufNewFile *.ms set filetype=groff
+		autocmd FileType groff source ~/.config/nvim/config/groff_char.vim
+	augroup END
+
 " CLEAR LATEX
 	autocmd VimLeave *.tex !texclear %
-
-" lf as FILEPICKER
-	let g:NERDTreeHijackNetrw = 0
-	let g:lf_replace_netrw = 1
-	let g:lf_map_keys = 0
 
 " UNIVERSAL LINK HANDLER
 	let g:utl_cfg_hdl_mt_application_pdf = ':silent !zathura %p &'
@@ -100,6 +107,13 @@
 
 " FERN
 	let g:fern#scheme#bookmark#store#file = '~/.config/nvim/bookmarks.json'
+
+" LATEX PREVIEW
+	let g:livepreview_previewer = 'zathura-tabbed'
+
+" GOYO
+	let g:goyo_width = 120
+	let g:goyo_linenr = 0
 
 " NOT USED
 	" let g:vim_markdown_folding_level = 6
@@ -119,3 +133,8 @@
 	" autocmd BufNewFile *.md -1read ~/.config/nvim/templates/skel.md
 	" autocmd BufNewFile *.html -1read ~/.config/nvim/templates/skel.html
 	" autocmd BufNewFile *.sh -1read ~/.config/nvim/templates/skel.sh
+	"
+" lf as FILEPICKER
+	" let g:NERDTreeHijackNetrw = 0
+	" let g:lf_replace_netrw = 1
+	" let g:lf_map_keys = 0

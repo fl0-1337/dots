@@ -2,7 +2,7 @@
 set drawbox
 set previewer ~/.config/lf/preview
 set scrolloff 10
-set color256
+# set color256
 set icons
 
 # needed for the most scripts
@@ -12,6 +12,43 @@ set ifs "\n"
 
 # CMDS/FUNCTIONS
 
+cmd on-cd &{{
+	printf "\033]0; (lf) - $PWD\007" > /dev/tty
+}}
+
+on-cd
+
+cmd yank-dirname ${{
+    dirname -- "$f" | tr -d '\n' | xclip -i -selection clipboard
+}}
+
+cmd yank-path ${{
+    echo "$fx" | xclip -i -selection clipboard
+}}
+
+cmd yank-basename ${{
+    echo "$fx" |
+      xargs -r -d '\n' basename -a -- |
+      xclip -i -selection clipboard
+}}
+
+cmd yank-basename-without-extension ${{
+    echo "$fx" |
+      xargs -r -d '\n' basename -a -- |
+      awk -e '{
+        for (i=length($0); i > 0; i--) {
+          if (substr($0, i, 1) == ".") {
+            if (i == 1) print $0
+            else print substr($0, 0, i-1)
+
+            break
+          }
+        }
+
+        if (i == 0)
+          print $0
+      }' | xclip -i -selection clipboard
+}}
 cmd cd-fuzzy ${{
 	lf -remote "send $id cd $(ls -d1 */ |fzf | sed 's/\ /\\ /g')"
 }}
@@ -44,7 +81,7 @@ cmd rename-end ${{
 	# get 'basename' of the selection
 	filename="${f##*/}"
 	# quote it so we won't deal with quotes in the lf -remote command
-	filename="$(printf '%q' "$filename")"
+	filename="$(printf '%q' "$filename" |sed 's/\\//g')"
 	filename="${filename// /<space>}"
 	lf -remote "send $id push :rename<space>'$filename'<c-b>"
 }}
@@ -54,7 +91,7 @@ cmd rename-ext ${{
 	# get 'basename' of the selection
 	filename="${f##*/}"
 	# quote it so we won't deal with quotes in the lf -remote command
-	filename="$(printf '%q' "$filename")"
+	filename="$(printf '%q' "$filename" |sed 's/\\//g')"
 	filename="${filename// /<space>}"
 	lf -remote "send $id push :rename<space>'$filename'<a-b><c-b>"
 }}
@@ -111,7 +148,9 @@ cmd cpdragon %cpdragon
 cmd mvdragon %mvdragon
 
 # UNBIND KEYS
-map y; map d; map p; map d; map c; map g; map q; map r
+map y; map d; map p; map d; map c; map g; map q; map r; map w; map n
+
+map gg top
 
 # CHANGE DIR
 map <c-f> $lf -remote "send $id select '$(fzf)'"
@@ -134,7 +173,8 @@ map gh cd ~
 map yy copy
 map dd cut
 map pp paste
-map gg top
+
+# GUI COPY/MOVE
 map dr dragon
 map dc cpdragon
 map dm mvdragon
@@ -161,8 +201,9 @@ map cx $xz $f
 map c2 $bzip2 $f
 
 # OPENING FILES
-map o $lf_opener $f
-map O &lf_choose_opener $f
+map o $lf_opener -s $f
+map O &lf_opener -c $f
+# map O &lf_choose_opener $f
 map e $$EDITOR $f
 map E editExt
 
@@ -171,6 +212,7 @@ map ZZ quit
 map ZQ quit
 map <c-z> $ kill -STOP $PPID
 map <c-r> reload
+map R redraw
 map W $setwal $f
 map . set hidden!
 map du diskUsage
@@ -182,7 +224,12 @@ map s shell
 # map <enter> shell
 map S $$SHELL
 map <enter> cd-fuzzy
-map <bs2> sel-fuzzy
+map <backspace2> sel-fuzzy
+
+map wd yank-dirname
+map wp yank-path
+map wb yank-basename
+map we yank-basename-without-extension
 
 # FILEPICKER TMUX
 cmd zle-cd %printf 'cd %q && zle reset-prompt\n' "$PWD" >&$ZLE_FIFO

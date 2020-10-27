@@ -2,15 +2,17 @@
 	let mapleader =" "
 
 " DOC_COMPILER
-	inoremap <F5> <Esc>:w<Cr>:!$HOME/.config/nvim/bin/doc_compiler <C-r>%<Cr>
-	inoremap ;C <Esc>:w<Cr>:!$HOME/.config/nvim/bin/doc_compiler <C-r>%<Cr>
-	map <F5> :w<Cr>:!$HOME/.config/nvim/bin/doc_compiler <C-r>%<Cr>
-	map ;C :w<Cr>:!$HOME/.config/nvim/bin/doc_compiler <C-r>%<Cr>
-	autocmd FileType tex map <F5> :w<Cr>:tabfind Main.tex<Cr>:!$HOME/.config/nvim/bin/doc_compiler <C-r>%<Cr>:tabclose
+	inoremap <F5> <Esc>:w<Cr>:!doc_compiler -c <C-r>%<Cr>
+	inoremap ;C <Esc>:w<Cr>:!doc_compiler -c <C-r>%<Cr>
+	map <F5> :w<Cr>:!doc_compiler -c <C-r>%<Cr>
+	map ;C :w<Cr>:!doc_compiler -c <C-r>%<Cr>
+	autocmd FileType tex map <F5> :w<Cr>:tabfind Main.tex<Cr>:!doc_compiler <C-r>%<Cr>:tabclose
+	autocmd FileType groff map <F5> :w<Cr>:tabfind main.ms<Cr>:!doc_compiler <C-r>%<Cr>:tabclose
+	autocmd FileType groff map ;C :w<Cr>:tabfind main.ms<Cr>:!doc_compiler <C-r>%<Cr>:tabclose
 
 " DOC_PREVIEW
-	inoremap <F4> <Esc>:w<Cr>:!doc_compiler <C-r>% -p &<Cr><Cr>
-	map <F4> :w<Cr>:!doc_compiler <C-r>% -p &<Enter><Enter>
+	inoremap <F4> <Esc>:w<Cr>:!doc_compiler -p <C-r>% &<Cr><Cr>
+	map <F4> :w<Cr>:!doc_compiler -p <C-r>% &<Enter><Enter>
 
 " TOGGLE SPELLCHECK
 	map <F7> :setlocal spell! spelllang=de_de<Cr>
@@ -63,7 +65,6 @@
 	autocmd FileType markdown source ~/.config/nvim/keys/markdown.vim
 	autocmd FileType tex source ~/.config/nvim/keys/latex.vim
 
-
 " FLOATTERM
 	nnoremap   <silent>   <F12>   :FloatermToggle<CR>
 	tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
@@ -77,6 +78,11 @@
 map <C-s> ]s
 " map <S-C-s> [s
 
+
+nmap <C-g> :echo expand('%:p')<Cr>
+
+
+map <F10> :execute "Rg " . expand("<cword>") <CR>
 " NOT USED
 	" map <leader>V :vsplit<Cr><c-w>l:term<Cr>
 	" map <leader>S :split<Cr><c-w>j:term<Cr>
