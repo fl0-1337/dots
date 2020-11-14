@@ -1,14 +1,12 @@
 #!/bin/sh
-file=$1
-# while getopts "c" o; do case "${o}" in
-# 	c) choose="true";;
-# esac done
 
-# if [ ! -z "${choose}" ]
-# then
-# 	what=$(echo "evince\nvlc" | dmenu -p "Open in what?")
-# 	setsid "${what}" "${file}" &
-# else
+args(){
+	action=$1
+	shift "$(($# ? 1 : 0))"
+	file=$@
+}
+
+standard_open(){
 	case "${file}" in
 		*.pdf)
 			setsid zathura "${file}" & ;;
@@ -45,3 +43,20 @@ file=$1
 				application/pdf) setsid zathura "${file}" >/dev/null 2>&1 & ;;
 			    esac
 	esac
+}
+
+choose_open(){
+	what=$(echo "evince\nvlc\ngimp\nzathura-tabbed" | dmenu -p "Open in what?")
+	setsid "${what}" "${file}" &
+}
+
+main(){
+	args $@
+
+	case ${action} in
+		-c)	choose_open ;;
+		-s)	standard_open ;;
+	esac
+}
+
+main "$@"

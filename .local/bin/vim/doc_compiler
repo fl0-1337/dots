@@ -1,7 +1,12 @@
 #!/bin/sh
-file=$(readlink -f "$1")
-dir=$(dirname "$file")
-base="${file%.*}"
+
+args(){
+	action=$1
+	shift "$(($# ? 1 : 0))"
+	file=$(readlink -f $@)
+	dir=$(dirname "$file")
+	base="${file%.*}"
+}
 
 compiling(){
 	case "$file" in
@@ -17,15 +22,31 @@ compiling(){
 	esac
 }
 
-[ "$2" = "-p" ] &&
+preview(){
 	case "$file" in
+		*\.1)
+			$TERMINAL -e man -l "$file" ;;
 		*\.html)
-				firefox "$file" ;;
+			firefox "$file" ;;
+
 		*\.m[ds] |*\.note | *\.org | *\.rmd | *\.tex)
-				zathura "$base".pdf ;;
+			zathura "$base".pdf ;;
+
 		*\.pres)
-				zathura "$base"_pres.pdf ;;
+			zathura "$base"_pres.pdf ;;
+
 		*\.sent)
-				sent "$file" ;;
-	esac && exit ||
-compiling
+			sent "$file" ;;
+	esac
+}
+
+main(){
+	args $@
+
+	case ${action} in
+		-c) compiling ;;
+		-p) preview ;;
+	esac
+}
+
+main "$@"
