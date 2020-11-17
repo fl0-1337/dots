@@ -1,0 +1,15 @@
+#!/bin/sh
+
+show(){
+	python3 /home/flo/.config/mpd/mpd_art_box.py --library ~/mm/music
+}
+
+hide(){
+	kill $(ps -ef | grep -E 'python3.*mpd_art.box.py*' | sed 1q | awk '{print $2}')
+}
+
+case $1 in
+	-s) show ;;
+	-h) hide ;;
+	*) exit ;;
+esac
