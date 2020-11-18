@@ -1,0 +1,26 @@
+#!/bin/sh
+
+update() {
+    sum=0
+    for arg; do
+        read -r i < "$arg"
+        sum=$(( sum + i ))
+    done
+    cache=${XDG_CACHE_HOME:-$HOME/.cache}/${1##*/}
+    [ -f "$cache" ] && read -r old < "$cache" || old=0
+    printf %d\\n "$sum" > "$cache"
+    printf %d\\n $(( sum - old ))
+}
+
+[ $BLOCK_BUTTON = "1" ] && st -e nmtui
+
+	[ "$(cat /sys/class/net/w*/operstate)" = 'down' ] && wifiicon="📡" ||
+		wifiicon=$(grep "^\s*w" /proc/net/wireless | awk '{ print "📶", int($3 * 100 / 70) "%" }')
+
+	printf "%s %s" "$wifiicon" "$(sed "s/down/❎/;s/up/🌐/" /sys/class/net/enp*/operstate)"
+
+
+rx=$(update /sys/class/net/[ew]*/statistics/rx_bytes)
+tx=$(update /sys/class/net/[ew]*/statistics/tx_bytes)
+
+printf " 🔻%sB 🔺%sB\\n" $(numfmt --to=iec $rx) $(numfmt --to=iec $tx)

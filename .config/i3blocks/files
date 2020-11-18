@@ -1,0 +1,13 @@
+#!/bin/bash
+
+[[ $BLOCK_BUTTON = "1" ]] && st -e lf
+
+# homefree=$(df -h | awk '$6=="/home"{print $4}')
+# mounted=$(df -h | awk '$1~/\/dev/&&$1!~/sda/{printf "%s (%s) ",$6,$4}')
+
+	rootfree=$(df -h | awk '$6=="/"{print $4}')
+	homefree=$(df -h | awk '$6=="/home"{print $4}')
+
+	echo  "💾${rootfree} 🏠${homefree}"
+
+# echo ["$homefree"] "$mounted"
