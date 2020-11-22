@@ -1,0 +1,26 @@
+#!/bin/sh
+
+filter(){
+	sed "/^volume:/d;/\\[playing\\]/d;/\\[paused\\]/d"
+}
+
+title=$(mpc current)
+state=$(mpc | sed "/^volume:/d;1d;s/\\[playing\\].*/▶/;s/\\[paused\\].*/⏸/")
+duration=$(mpc | sed "1d;3d" | awk '{print $3}')
+
+if [ ! "$(mpc current)" = "" ];then
+	echo "$state $title ($duration)"
+fi
+
+# info-string
+artist=$(mpc -f "Artist:\t%artist%" | filter)
+album=$(mpc -f "Album:\t%album%" | filter)
+year=$(mpc -f "Year:\t%date%" | filter)
+track=$(mpc -f "Track:\t%track%" | filter)
+
+case $BLOCK_BUTTON in
+	1) mpc toggle ;;
+	3) notify-send "Info:" "${artist}\n${album}\n${year}\n${track}" ;;
+	4) mpc prev   ;;  # scroll up, previous
+	5) mpc next   ;;  # scroll down, next
+esac

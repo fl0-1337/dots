@@ -1,0 +1,20 @@
+#!/bin/bash
+
+case $BLOCK_BUTTON in
+	1) mocp -G ;;
+	3) mocp -s ;;
+	4) mocp -r ;;
+	5) mocp -f ;;
+esac
+
+state=$(mocp -i | awk '$1=="State:"{print $2}')
+title=$(mocp -i | awk '$1=="SongTitle:"{print substr ($0,index($0,$2))}')
+artist=$(mocp -i | awk '$1=="Artist:"{print substr ($0,index($0,$2))}')
+lefttime=$(mocp -i | awk '$1=="TimeLeft:"{print $2}')
+
+if [ $state = PAUSE ]
+then echo paused
+elif [ $state = STOP ]
+then echo " "
+else echo "$artist - $title ($lefttime)"
+fi

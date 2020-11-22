@@ -1,0 +1,8 @@
+#!/bin/sh
+
+wintitle=$(xdotool getwindowfocus getwindowname)
+
+if [ ! "$wintitle" = "i3" ]; then
+	echo $wintitle
+	else echo ""
+fi
