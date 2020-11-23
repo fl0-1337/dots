@@ -5,5 +5,7 @@ from libqtile import bar
 
 def init_screens():
     return [
-        Screen(top=bar.Bar(widgets=init_widgets_list(), size=20))
+        Screen(top=bar.Bar(widgets=init_widgets_list(),
+                           size=20)
+               )
     ]

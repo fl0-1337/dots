@@ -1,10 +1,8 @@
-#!/bin/bash
-
-[[ $BLOCK_BUTTON = "1" ]] && st -e sudo apt upgrade && updatecheck && pkill -RTMIN+13 i3blocks & disown
+#!/bin/sh
 
 if [ ! -f /tmp/aptlist ]; then	aptlist="--"
-else 	aptlist=$(cat /tmp/aptlist)
-fi
+else 	aptlist=$(cat /tmp/aptlist); fi
 
-#[ "${aptlist}" != "0" ] &&
-[ "${aptlist}" != "" ] && echo "📦 ${aptlist}"
+
+if [ "${aptlist}" = "0" ]; then echo ""
+else 	echo "📦 ${aptlist}"; fi

@@ -1,9 +1,6 @@
 # import from libs
 from typing import List  # noqa: F401
 
-# from libqtile.config import Screen
-# from libqtile.lazy import lazy
-
 # import from files
 from bindings import keys
 from groups import groups
@@ -29,7 +26,9 @@ dgroups_app_rules = []  # type: List
 main = None  # WARNING: this is deprecated and will be removed soon
 follow_mouse_focus = True
 bring_front_click = False
-cursor_warp = False
+
+# place mouse in new window
+cursor_warp = True
 
 auto_fullscreen = True
 focus_on_window_activation = "smart"

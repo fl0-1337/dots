@@ -101,6 +101,7 @@ keys = [
         desc="Launch terminal"
         ),
 
+    # rofi-programs
     Key([mod], "d",
         lazy.spawn(runcmd),
         desc="spawn program launcher"
@@ -109,16 +110,46 @@ keys = [
     Key([mod, "control"], "u",
         lazy.spawn("rofiunicode")),
 
+    Key([mod], "F9",
+        lazy.spawn("rofimount -m"),
+        desc="mount usb/mtp-devices"
+        ),
+
+    Key([mod], "F10",
+        lazy.spawn("rofimount -u"),
+        desc="unmount usb/mtp-devices"
+        ),
+
+    Key([mod, "control"], "s",
+        lazy.spawn("rofiwebsearch"),
+        desc="search in web or open website"
+        ),
+
+    Key([mod, "control"], "t",
+        lazy.spawn("rofitodo"),
+        desc="search in web or open website"
+        ),
+
     Key([mod], "Tab",
         lazy.screen.toggle_group()
         ),
 
-
     # system
+    Key([mod], "BackSpace",
+        lazy.spawn("qtile-winhide -h"),
+        desc="hide a window"
+        ),
+
+    Key([mod, "shift"], "BackSpace",
+        lazy.spawn("qtile-winhide -s"),
+        desc="hide a window"
+        ),
+
     Key([mod, "shift"], "q",
         lazy.window.kill(),
         desc="Kill focused window"
         ),
+
     Key([mod, "control"], "r",
         lazy.restart(),
         desc="Restart Qtile"
@@ -127,7 +158,6 @@ keys = [
     Key([mod, "control"],
         "q", lazy.shutdown(),
         desc="Shutdown Qtile"),
-
 
     # music control
     Key([mod], "p",

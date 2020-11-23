@@ -87,6 +87,14 @@ def apt_widget():
     )
 
 
+def hides_widget():
+    return widget.GenPollText(
+        **widget_theme,
+        update_interval=1,
+        func=lambda: subprocess.check_output(scriptfolder + "hides").decode("utf-8").replace('\n', ''),
+    )
+
+
 def volume_widget():
     return widget.GenPollText(
         **widget_theme,
@@ -100,6 +108,14 @@ def files_widget():
         **widget_theme,
         update_interval=1,
         func=lambda: subprocess.check_output(scriptfolder + "files").decode("utf-8").replace('\n', ''),
+    )
+
+
+def mounts_widget():
+    return widget.GenPollText(
+        **widget_theme,
+        update_interval=1,
+        func=lambda: subprocess.check_output(scriptfolder + "mounts").decode("utf-8").replace('\n', ''),
     )
 
 
@@ -153,9 +169,12 @@ def init_widgets_list():
         sep_widget(),
         pomodoro_widget(),
         space_widget(),
+
         window_widget(),
+
         music_widget(),
-        sep_widget(),
+        mounts_widget(),
+        hides_widget(),
         apt_widget(),
         sep_widget(),
         volume_widget(),
@@ -173,5 +192,6 @@ def init_widgets_list():
         time_widget(),
         space_widget(),
         widget.Systray(),
+        widget.Notify(),
     ]
     return widgets_list

@@ -1,0 +1,5 @@
+#!/bin/sh
+	windowcount=$(wc -l $HOME/.config/hides | awk '{print $1}')
+	if [ -s $HOME/.config/hides ];then
+		echo "🤚${windowcount}"
+	else echo "";fi

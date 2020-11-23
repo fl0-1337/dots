@@ -4,6 +4,6 @@ getVolume=$(amixer get Master state | sed -e "s/\[//;s/\]//" | awk '$1=="Front"&
 getState=$(amixer get Master state | awk '$1=="Front"&&$2=="Left:"{print $6}')
 
 if [ "$getState" = "[off]" ]; then
-	  echo "🔇${getVolume}"
-	  else	echo "🔈${getVolume}"
+	  echo "🔇 ${getVolume}"
+	  else	echo "🔊 ${getVolume}"
 fi

@@ -6,5 +6,6 @@
 
 	[ "$cap" -le 25 ] && [ "$stat" = "🔋" ] && warn="❗"
 
-	printf "%s%s%s%%" "$stat" "$warn" "$cap"
-	unset warn
+	if [ ! -d $battery ]; then echo "🔌"
+	else  printf "%s%s%s%%" "$stat" "$warn" "$cap"
+	      unset warn; fi
