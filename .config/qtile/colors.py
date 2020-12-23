@@ -4,6 +4,7 @@ def init_colors():
             ["#5E81AC", "#5E81AC"],  # nord10
             ["#BF616A", "#BF616A"],  # nord11
             ["#A3BE8C", "#A3BE8C"],  # nord14
+            ["#EBCB8B", "#EBCB8B"],  # nord13
 
             ["#434758", "#434758"],  # background for current screen tab
             ["#ffffff", "#ffffff"],  # font color for group names

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+brightlevel=$(brightnessctl | grep Current | sed 's/^.*(//;s/)//')
+
+echo 💡 ${brightlevel}

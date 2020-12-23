@@ -2,8 +2,9 @@
 
 getVolume=$(amixer get Master state | sed -e "s/\[//;s/\]//" | awk '$1=="Front"&&$2=="Left:"{print $5}')
 getState=$(amixer get Master state | awk '$1=="Front"&&$2=="Left:"{print $6}')
+getMicState=$(amixer get Capture state | awk '$1=="Front"&&$2=="Left:"{print $6}')
 
-if [ "$getState" = "[off]" ]; then
-	  echo "🔇 ${getVolume}"
-	  else	echo "🔊 ${getVolume}"
-fi
+if [ "$getMicState" = "[on]" ]; then micon="🎤"; else micon="";fi
+if [ "$getState" = "[off]" ]; then icon="🔇"; else icon="🔊";fi
+
+echo "${icon}" ${getVolume} ${micon}

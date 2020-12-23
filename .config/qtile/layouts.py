@@ -41,5 +41,15 @@ def init_layouts():
 # rules for specific windows
 @hook.subscribe.client_new
 def float_my_app(window):
-    if window.window.get_name() == "mpd_art_box.py":
+    if window.window.get_name() == "mpd-art-box":
+        window.floating = True
+
+@hook.subscribe.client_new
+def float_my_app(window):
+    if window.window.get_name() == "FortiClient SSLVPN":
+        window.floating = True
+
+@hook.subscribe.client_new
+def float_my_app(window):
+    if window.window.get_name() == "ksnip":
         window.floating = True

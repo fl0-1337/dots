@@ -1,0 +1,17 @@
+#!/bin/sh
+
+
+read cpu a b c previdle rest < /proc/stat
+prevtotal=$((a+b+c+previdle))
+
+sleep 0.5
+
+read cpu a b c idle rest < /proc/stat
+total=$((a+b+c+idle))
+
+cpu=$((100*( (total-prevtotal) - (idle-previdle) ) / (total-prevtotal) ))
+
+therm_status=$(acpi -t | awk '{print $4}'| cut -d. -f1)
+
+
+printf "💽 %2s%%  %2s°C\\n" $(numfmt --to=iec ${cpu}) $(numfmt --to=iec ${therm_status})

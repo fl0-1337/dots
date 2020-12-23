@@ -1,0 +1,130 @@
+#!/bin/bash
+
+
+opener(){
+file=$1
+case "${file}" in
+	*.pdf)
+		setsid zathura "${file}" & ;;
+
+	*.png|*.jpg|*.jpeg|*.bmp|*.tif|*.tiff|*.gif)
+		setsid sxiv -aio "${file}" & ;;
+
+	*.doc|*.docx|*.ppt|*.pptx|*.xls|*.xlsx)
+		setsid libreoffice "${file}" & ;;
+
+	*.html|*.htm|*.xml|*.php)
+		setsid qutebrowser "${file}" & ;;
+
+	*.mkv|*.mp4|*.avi|*.mpge|*.mp2|*.ogv)
+		setsid mpv "${file}" & ;;
+
+	*.mp3|*.aac|*.flac|*.ogg|*.wav|*.wma)
+		setsid $TERMINAL -e mpv "${file}" & ;;
+
+	*.txt|*.log|*.cfg|*.tex|*.md|*.markdown)
+		$TERMINAL -e $EDITOR "${file}" & ;;
+
+	*.c|*.cpp|*.js|*.css|*.java)
+		setsid $TERMINAL -e $EDITOR "${file}" & ;;
+
+	*)
+		case $(file --mime-type "${file}" -b) in
+			text/troff) man ./ $file;;
+			text/*) $TERMINAL -e $EDITOR $file;;
+			image/x-xcf|image/svg+xml) setsid gimp $file >/dev/null 2>&1 & ;;
+			image/*) setsid sxiv -aio  "${file}" 2>/dev/null& ;;
+			audio/*) mpv --input-ipc-server=/tmp/mpvsoc$(date +%%s) "${file}" ;;
+			video/*) setsid mpv --input-ipc-server=/tmp/mpvsoc$(date +%%s) "${file}" -quiet >/dev/null 2>&1 & ;;
+			application/pdf) setsid zathura "${file}" >/dev/null 2>&1 & ;;
+		    esac
+esac
+}
+
+
+lsi(){
+space="  "
+
+# ls with icons:
+	ls -a "$1" | while read entry; do
+		if [[ -d "${p}/${entry}" ]]; then
+			echo "📁${space}${entry}"
+		else
+			case $entry in
+
+				*.c|*.cpp)
+					echo "📃${space}${entry}"	;;
+
+				*.txt|*.log|*.rc)
+					echo "✍${space}${entry}" 	;;
+
+				*.png|*.webp|*.ico|.*gif|.*tif|.*tiff)
+					echo "🖼${space}${entry}"	;;
+
+				*.jpg|*.jpeg|*.jpe)
+					echo "📸${space}${entry}"	;;
+
+				*.md)
+					echo "📘${space}${entry}"	;;
+
+				*.py|*.sh)
+					echo "${space}${entry}" 	;;
+
+				.*js)
+					echo "${space}${entry}" 	;;
+
+				.*mp4|.*mkv|.*webm|.*mpeg|.*avi)
+					echo "🎥${space}${entry}" 	;;
+
+				.*mp3|.*m4a|.*opus|.*ogg)
+					echo "🎵${space}${entry}" 	;;
+
+				.*pdf|.*epub|.*azw3|.*djvu)
+					echo "📚${space}${entry}" 	;;
+
+				.*tex)
+    					echo "📜${space}${entry}" 	;;
+
+				.*tar|.*zip|.*rar|.*7z|.*gz|.*bz2|.*xz)
+					echo "📦${space}${entry}" 	;;
+
+				*)
+					echo "📃${space}${entry}" 	;;
+			esac
+		fi
+	done
+}
+
+chooser(){
+# target="$1"
+# [ -z "$target" ] && target="$(realpath .)"
+target="$(realpath .)"
+# prompt="$2"
+
+while true; do
+	# export lsi
+	p="$prompt"
+	[ -z "$p" ] && p="$target"
+
+	sel="$(lsi "$target" | grep -v '^📁 *\.$' | rofi -font "monospace 10" -dmenu -i -p "$p:" -l 10 | awk '{print substr($0, index($0,$2))}')"
+	[ -z "$sel" ] && exit
+
+	c="$(echo "$sel")"
+	if [ "$c" = "/" ]; then
+		newt="$sel"
+	else
+		newt="$(realpath "${target}/${sel}")"
+	fi
+
+	if [ -e "$newt" ]; then
+		target="$newt"
+		if [ ! -d "$target" ]; then
+			echo "$target"
+			opener "$target"
+			exit 0
+		fi
+	fi
+done
+}
+
+chooser

@@ -46,7 +46,7 @@ standard_open(){
 }
 
 choose_open(){
-	what=$(echo "evince\nvlc\ngimp\nzathura-tabbed" | dmenu -p "Open in what?")
+	what=$(echo "ark\nevince\npdfstudio\nvlc\ngimp\nzathura-tabbed" | rofi -location 2 -font "monospace 10" -l 6 -dmenu -p "Open in what?")
 	setsid "${what}" "${file}" &
 }
 
