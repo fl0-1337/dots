@@ -1,10 +1,17 @@
+" PROJECT:	nvim
+" FILE:		config/netrw.vim
+" AUTHOR:   rassil0n
+" MAIL:		rassil0n@protonmail.com
+" GIT:		https://github.com/rassil0n
+
+"{{{ General Settings
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_winsize = 20
 let g:netrw_liststyle = 1
-
-
+"}}}
+"{{{ OpenToRight
 function! OpenToRight()
   :normal v
   let g:path=expand('%:p')
@@ -12,7 +19,8 @@ function! OpenToRight()
   execute 'belowright vnew' g:path
   :normal <C-l>
 endfunction
-
+"}}}
+"{{{ OpenBelow
 function! OpenBelow()
   :normal v
   let g:path=expand('%:p')
@@ -20,7 +28,8 @@ function! OpenBelow()
   execute 'belowright new' g:path
   :normal <C-l>
 endfunction
-
+"}}}
+"{{{ OpenTab
 function! OpenTab()
   :normal v
   let g:path=expand('%:p')
@@ -28,7 +37,8 @@ function! OpenTab()
   :normal <C-l>
   execute 'tabedit' g:path
 endfunction
-
+"}}}
+"{{{ NetrwMappings
 function! NetrwMappings()
     " Hack fix to make ctrl-l work properly
     noremap <buffer> <C-l> <C-w>l
@@ -42,8 +52,8 @@ augroup netrw_mappings
     autocmd!
     autocmd filetype netrw call NetrwMappings()
 augroup END
-
-" Allow for netrw to be toggled
+"}}}
+"{{{ ToggleNetrw
 function! ToggleNetrw()
     if g:NetrwIsOpen
         let i = bufnr("$")
@@ -59,7 +69,11 @@ function! ToggleNetrw()
         silent Lexplore
     endif
 endfunction
+"}}}
 
+let g:NetrwIsOpen=0
+
+"{{{ NOT USED
 " Close Netrw if it's the only buffer open
 " autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw" || &buftype == 'quickfix' |q|endif
 
@@ -68,5 +82,5 @@ endfunction
 "   autocmd!
 "   autocmd VimEnter * :call ToggleNetrw()
 " augroup END
-
-let g:NetrwIsOpen=0
+" }}}
+" vim:foldmethod=marker:foldlevel=0

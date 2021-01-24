@@ -1,6 +1,7 @@
 " BASICS
 	colorscheme nord
 	set wildmenu
+	set wildmode=longest:full,full
 	set relativenumber number
 	set splitbelow splitright
 	set cursorline
@@ -9,6 +10,17 @@
 	set shortmess+=c
 	set hidden
 	set noswapfile
+	set tabstop=4
+	set shiftwidth=4
+	set softtabstop=4
+	" set expandtab
+
+" COMPLETION
+        set completeopt+=menuone
+        set completeopt+=noselect
+
+	" autocmd! Bufread,Bufnewfile */snip/* setlocal filetype=neosnippet
+	" autocmd FileType neosnippet set foldmethod=marker
 
 " SET TITLE
 	set title
@@ -35,24 +47,6 @@
 " ALWAY CENTER WHEN INSTERTING
 	autocmd InsertEnter * norm zz
 
-" TAGBAR
-	let g:tagbar_type_markdown = {
-	    \ 'ctagstype' : 'markdown',
-	    \ 'kinds' : [
-		\ 'h:Heading_L1',
-		\ 'i:Heading_L2',
-		\ 'k:Heading_L3'
-	    \ ]
-	\ }
-
-" PEEKABOO
-	let g:peekaboo_prefix = '<leader>'
-
-" TABLINE
-	let g:airline_theme = 'nord'
-	let g:airline#extensions#tabline#enabled = 1
-	let g:airline#extensions#tabline#formatter = 'unique_tail'
-
 " HIGHLIGHT TRAILING WHITESPACE
 	highlight ExtraWhitespace ctermbg=red guibg=red
 	autocmd BufEnter,InsertLeave * match ExtraWhitespace /\s\+$/
@@ -60,18 +54,6 @@
 
 " REMOVE TRAILING WHITESPACE ON SAVING
 	autocmd BufWritePre * %s/\s\+$//e
-
-" ULTISNIPS
-	let g:UltiSnipsSnippetDirectories=[$HOME. '/.config/nvim/UltiSnips']
-	let g:UltiSnipsExpandTrigger="<Tab>"
-	let g:UltiSnipsJumpForwardTrigger="<c-j>"
-	let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-	let g:UltiSnipsListSnippets="<c-l>"
-
-" QUICK-SCOPE
-	let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-	highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 ctermbg=0 cterm=underline
-	highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 ctermbg=0 cterm=underline
 
 " SET FILETYPE FOR RMD-FILES
 	autocmd BufNewFile,BufRead,BufWrite *.rmd set filetype=markdown
@@ -84,57 +66,25 @@
 	augroup END
 
 " SET FILETYPE FOR LaTeX
-	autocmd BufRead,BufNewFile *.tex set filetype=tex
-
-" SET FILETYPE AND SPECIAL CHARACTERS FOR GROFF
-	augroup groff
+	augroup latex
 		autocmd!
-		autocmd BufRead,BufNewFile *.ms set filetype=groff
-		autocmd FileType groff source ~/.config/nvim/config/groff_char.vim
+		autocmd BufRead,BufNewFile *.tex set filetype=tex
+		autocmd VimLeave *.tex !texclear %
 	augroup END
 
-" CLEAR LATEX
-	autocmd VimLeave *.tex !texclear %
-
-" UNIVERSAL LINK HANDLER
-	let g:utl_cfg_hdl_mt_application_pdf = ':silent !zathura %p &'
-        let g:utl_cfg_hdl_mt_image_jpeg = ':silent !sxiv %p &'
-	let g:utl_cfg_hdl_scm_http_system = "silent !firefox -remote 'ping()' && firefox -remote 'openURL( %u )' || firefox '%u#%f' &"
-	let g:utl_cfg_hdl_mt_text_directory='VIM'
-
-" CHOOSEWIN
-	let g:choosewin_overlay_enable = 1
-
-" FERN
-	let g:fern#scheme#bookmark#store#file = '~/.config/nvim/bookmarks.json'
+" SET FILETYPE AND SPECIAL CHARACTERS FOR GROFF
+	augroup troff
+		autocmd!
+		" autocmd BufRead,BufNewFile *.ms set filetype=groff
+		autocmd FileType troff set foldmethod=marker
+		autocmd FileType troff source ~/.config/nvim/config/groff_char.vim
+	augroup END
 
 " LATEX PREVIEW
-	let g:livepreview_previewer = 'zathura-tabbed'
-
-" GOYO
-	let g:goyo_width = 120
-	let g:goyo_linenr = 0
-
-" NOT USED
-	" let g:vim_markdown_folding_level = 6
-	" let g:vim_markdown_edit_url_in = 'tab'
-	" autocmd BufNewFile *.tex -1read ~/.config/nvim/templates/skel.tex
-	" let g:fff#split = \"30vnew\"
-	" let g:fff#split_direction = \"nosplitbelow nosplitright\"
-
-" FOR NOTE-TAKING
-	" augroup notes
-	" 	autocmd!
-	" 	autocmd BufNewFile,BufRead,BufWrite *.note set nofoldenable
-	" 	autocmd BufNewFile,BufRead,BufWrite *.note set filetype=markdown
-	" augroup END
+	" let g:livepreview_previewer = 'zathura-tabbed'
 
 " LOAD SKELS FOR NEW FILES
 	" autocmd BufNewFile *.md -1read ~/.config/nvim/templates/skel.md
 	" autocmd BufNewFile *.html -1read ~/.config/nvim/templates/skel.html
 	" autocmd BufNewFile *.sh -1read ~/.config/nvim/templates/skel.sh
-	"
-" lf as FILEPICKER
-	" let g:NERDTreeHijackNetrw = 0
-	" let g:lf_replace_netrw = 1
-	" let g:lf_map_keys = 0
+
