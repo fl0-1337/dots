@@ -80,6 +80,11 @@
 		autocmd FileType troff source ~/.config/nvim/config/groff_char.vim
 	augroup END
 
+	augroup md
+		autocmd!
+		autocmd FileType markdown set conceallevel=2
+	augroup END
+
 " LATEX PREVIEW
 	" let g:livepreview_previewer = 'zathura-tabbed'
 

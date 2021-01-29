@@ -113,6 +113,18 @@ Plug 'hughbien/org-vim'
 Plug 'masukomi/vim-markdown-folding'
 Plug 'matze/vim-tex-fold'
     let g:tex_fold_override_foldtext = 1
+Plug 'plasticboy/vim-markdown'
+	let g:vim_markdown_folding_disabled = 1
+	let g:vim_markdown_math = 1
+	let g:vim_markdown_frontmatter = 1
+	let g:vim_markdown_new_list_item_indent = 2
+	let g:vim_markdown_strikethrough = 1
+
+	map <M-Down> <Plug>Markdown_MoveToNextHeader
+	map <M-UP> <Plug>Markdown_MoveToPreviousHeader
+
+	autocmd Bufread,Bufnewfile *.note setlocal filetype=markdown
+
 "}}}
 "{{{ MISC
 Plug 'junegunn/goyo.vim'			" work on files without distraction
@@ -120,6 +132,7 @@ Plug 'junegunn/goyo.vim'			" work on files without distraction
 	let g:goyo_linenr = 0
 
 Plug 'inkarkat/vim-SyntaxRange'
+	autocmd FileType markdown call SyntaxRange#Include('<!-- TeX -->', '<!-- -->', 'tex', 'comment')
 Plug 'terryma/vim-multiple-cursors'		" edit the different lines the same way
 Plug 'vim-scripts/speeddating.vim'		" in/decrease dates with <C-a>,<C-x>
 Plug 'ap/vim-css-color'				" highlight hexcolors in code
@@ -143,7 +156,6 @@ Plug 'vim-scripts/utl.vim'			" opening links with vim (pdf,url,jpg)
 " Plug 'PotatoesMaster/i3-vim-syntax'
 " Plug 'baskerville/vim-sxhkdrc'
 " Plug 'dracula/vim',{'as':'dracula'}
-" Plug 'plasticboy/vim-markdown'
 		" let g:vim_markdown_folding_level = 6
 		" let g:vim_markdown_edit_url_in = 'tab'
 " Plug 'pbrisbin/vim-mkdir'

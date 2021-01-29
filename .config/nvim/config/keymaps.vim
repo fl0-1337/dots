@@ -19,7 +19,7 @@
 "}}}
 "{{{ DOC_PREVIEW
 	inoremap <F4> <Esc>:w<Cr>:!doc_compiler -p <C-r>% &<Cr><Cr>
-	map <F4> :w<Cr>:!doc_compiler -p <C-r>% &<Enter><Enter>
+	map <F4> :w<Cr>:!doc_compiler -p <C-r>%<Cr><Cr>
 "}}}
 "{{{ SPELLCHECK
 	map <F7> :setlocal spell! spelllang=de_de<Cr>
